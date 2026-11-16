@@ -1,0 +1,432 @@
+@import "@fontsource-variable/inter";
+
+/* ==========================================================================
+   Finaze — tokens sampled from the reference video / PDF (1920px design).
+   Sizes use vw with clamp() floors so the desktop composition matches the
+   reference and scales cleanly down.
+   ========================================================================== */
+:root {
+  --navy: #001a56;
+  --navy-900: #021039;
+  --blue: #5391ee;
+  --blue-cta: #377ff0;
+  --blue-btn: #3b82f6;
+  --ink: #0b1430;
+  --text: #4b5468;
+  --muted: #8a92a3;
+  --line: #e7e9ee;
+  --page: #f8f8f8;
+  --card: #ffffff;
+  --gutter: clamp(20px, 6.6vw, 128px);
+  --maxw: 1664px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --font: "Inter Variable", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 88px; /* in-page links land below the sticky header */
+}
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+figure {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--blue-cta);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: var(--blue);
+  color: #fff;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  left: 16px;
+  top: -60px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--navy);
+  color: #fff;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 16px;
+}
+
+/* ---------- shared type ---------- */
+.container {
+  width: 100%;
+  max-width: calc(var(--maxw) + 2 * var(--gutter));
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+
+.eyebrow {
+  font-size: clamp(11px, 0.68vw, 13px);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #a3abbb;
+}
+
+.h2 {
+  font-size: clamp(28px, 2.3vw, 44px);
+  font-weight: 500;
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  color: var(--navy);
+}
+
+.lede {
+  font-size: clamp(13px, 0.78vw, 15px);
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  padding: 0.85em 1.6em;
+  border-radius: 999px;
+  font-size: clamp(13px, 0.83vw, 16px);
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  /* No transform transition: GSAP animates button transforms (hero, CTA), and a
+     CSS transition on top makes GSAP read a mid-flight value and stop short. */
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn--blue {
+  background: var(--blue-btn);
+  color: #fff;
+}
+.btn--blue:hover {
+  background: #2563eb;
+}
+.btn--navy {
+  background: var(--navy);
+  color: #fff;
+}
+.btn--navy:hover {
+  background: #0a2a7a;
+}
+.btn--outline {
+  border: 1.5px solid var(--navy);
+  color: var(--navy);
+  background: transparent;
+}
+.btn--outline:hover {
+  background: var(--navy);
+  color: #fff;
+}
+.btn--ghost-blue {
+  border: 1.5px solid var(--blue-btn);
+  color: var(--blue-btn);
+  font-size: clamp(12px, 0.73vw, 14px);
+  padding: 0.7em 1.4em;
+}
+.btn--ghost-blue:hover {
+  background: var(--blue-btn);
+  color: #fff;
+}
+
+/* ---------- navigation ---------- */
+.nav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: clamp(16px, 1.9vw, 36px) var(--gutter) 0;
+  transition: padding 0.3s var(--ease), background-color 0.3s, box-shadow 0.3s;
+}
+.nav.is-stuck {
+  padding-block: 10px;
+  background: rgba(255, 255, 255, 0.86);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(0, 26, 86, 0.06), 0 10px 30px -20px rgba(0, 26, 86, 0.35);
+}
+.nav__logo .logo {
+  width: clamp(104px, 7.2vw, 138px);
+  height: auto;
+}
+.nav__links {
+  position: absolute;
+  left: 50%;
+  translate: -50% 0;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+}
+.nav__links > ul {
+  display: flex;
+  gap: 4px;
+}
+.nav__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: clamp(13px, 0.83vw, 16px);
+  color: var(--ink);
+  transition: color 0.2s, background-color 0.2s;
+}
+.nav__link:hover,
+.nav__link[aria-current="page"] {
+  color: var(--blue-btn);
+}
+.has-menu {
+  position: relative;
+}
+.nav__menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 220px;
+  padding: 8px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 20px 40px -20px rgba(0, 26, 86, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  translate: 0 -6px;
+  transition: opacity 0.25s, translate 0.25s var(--ease), visibility 0s 0.25s;
+}
+.nav__menu.is-open,
+.has-menu:hover .nav__menu,
+.has-menu:focus-within .nav__menu {
+  opacity: 1;
+  visibility: visible;
+  translate: 0 0;
+  transition: opacity 0.25s, translate 0.25s var(--ease);
+}
+.nav__menu a {
+  display: block;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+.nav__menu a:hover {
+  background: #f1f5fd;
+  color: var(--blue-btn);
+}
+.nav__toggle,
+.nav__drawer {
+  display: none;
+}
+
+/* Six menu items need ~1200px beside the logo and button; below that, a drawer. */
+@media (max-width: 1199px) {
+  .nav__links,
+  .nav__cta {
+    display: none;
+  }
+  /* Logo, toggle and button are sized together so the bar and drawer read as one set. */
+  .nav__logo .logo {
+    width: clamp(124px, 16vw, 140px);
+  }
+  .nav__toggle {
+    position: relative;
+    display: grid;
+    place-content: center;
+    gap: 6px;
+    width: 48px;
+    height: 48px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.9);
+  }
+  .nav__toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--navy);
+    transition: transform 0.3s var(--ease);
+  }
+  .nav__toggle.is-open span:first-child {
+    transform: translateY(4px) rotate(45deg);
+  }
+  .nav__toggle.is-open span:last-child {
+    transform: translateY(-4px) rotate(-45deg);
+  }
+
+  .nav__drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    padding: 0 var(--gutter) 40px;
+    background: #fff;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0s 0.3s;
+  }
+  .nav__drawer.is-open {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s;
+  }
+  /* Same spot as the header, so the close button sits where the toggle was. */
+  .nav__drawer-top {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: clamp(16px, 1.9vw, 36px);
+    padding-bottom: 12px;
+    background: #fff;
+  }
+  /* Match the slimmer scrolled header, so the logo does not shift on open. */
+  .nav__drawer.is-stuck .nav__drawer-top {
+    padding-top: 10px;
+  }
+  .nav__drawer .nav__toggle {
+    background: #f1f3f8;
+  }
+  .nav__drawer nav > ul {
+    display: grid;
+    gap: 2px;
+  }
+  .nav__drawer:focus {
+    outline: none;
+  }
+  .nav__drawer .nav__link {
+    width: 100%;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    font-size: 19px;
+    font-weight: 500;
+  }
+  .nav__drawer .nav__link svg {
+    width: 14px;
+    height: 14px;
+  }
+  .nav__drawer .nav__link[aria-expanded="true"] svg {
+    rotate: 180deg;
+  }
+  .nav__drawer .nav__menu {
+    position: static;
+    display: none;
+    min-width: 0;
+    padding: 6px 0 8px 12px;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    translate: none;
+  }
+  .nav__drawer .nav__menu.is-open {
+    display: block;
+  }
+  .nav__drawer .nav__menu a {
+    padding: 9px 12px;
+    font-size: 16px;
+    color: var(--text);
+  }
+  .nav__cta-mobile {
+    align-self: stretch;
+    padding: 1em 1.6em;
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

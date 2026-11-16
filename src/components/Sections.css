@@ -1,0 +1,1301 @@
+/* Sections after the hero. Measurements from the 1920px PDF / reference video. */
+.h2 {
+  font-size: clamp(26px, 1.95vw, 40px);
+}
+.eyebrow + .h2 {
+  margin-top: 10px;
+}
+
+/* ---------- partners ---------- */
+/* Centred layout, as shown on the hero laptop screen. The hero zoom ends with
+   that screen filling the viewport; the real section sits directly under it
+   (see the -100svh margin in the motion query below). */
+.partners {
+  position: relative;
+  z-index: 2;
+  padding: 0 0 clamp(40px, 3.5vw, 64px);
+  background: var(--page);
+}
+.partners__intro {
+  padding-top: clamp(72px, 11.5vw, 230px);
+}
+.partners__head {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+.partners__head .h2 {
+  font-size: clamp(26px, 2.1vw, 42px);
+}
+.partners__tagline {
+  margin-top: 12px;
+  font-size: clamp(13px, 0.78vw, 15px);
+  color: var(--text);
+}
+.partners__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 665px));
+  justify-content: center;
+  gap: clamp(20px, 3.2vw, 62px);
+  margin-top: clamp(32px, 3.2vw, 60px);
+}
+.pcard {
+  will-change: transform;
+}
+.pcard img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 665 / 498;
+  object-fit: cover;
+  border-radius: 6px;
+}
+.pcard h3 {
+  margin-top: 18px;
+  font-size: clamp(16px, 1.05vw, 20px);
+  font-weight: 500;
+  color: var(--ink);
+}
+.pcard p {
+  margin-top: 6px;
+  max-width: 560px;
+  font-size: clamp(12px, 0.73vw, 14px);
+  line-height: 1.55;
+  color: var(--text);
+}
+.pcard__link {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: clamp(13px, 0.78vw, 15px);
+  font-weight: 500;
+  color: var(--blue-btn);
+}
+.pcard__link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.partners__cta {
+  margin-top: clamp(32px, 3vw, 56px);
+  text-align: center;
+}
+.partners__cta p {
+  margin-top: 14px;
+  font-size: clamp(12px, 0.73vw, 14px);
+  color: var(--muted);
+}
+
+/* ---------- about ---------- */
+.about {
+  padding: clamp(48px, 4vw, 80px) 0;
+  overflow: hidden;
+  background: var(--page);
+}
+.about__inner {
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 654px);
+  gap: clamp(32px, 6vw, 116px);
+  align-items: center;
+  max-width: calc(1528px + 2 * var(--gutter));
+  will-change: transform;
+}
+.about__text {
+  margin-top: 18px;
+  max-width: 600px;
+  font-size: clamp(13px, 0.78vw, 15px);
+  line-height: 1.65;
+  color: var(--text);
+}
+.about__stats {
+  display: flex;
+  gap: clamp(32px, 4vw, 80px);
+  margin: clamp(28px, 2.6vw, 48px) 0 0;
+  padding-top: clamp(24px, 2vw, 36px);
+  border-top: 1px solid var(--line);
+}
+.about__stats dt {
+  font-size: clamp(36px, 3vw, 58px);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--blue);
+}
+.about__stats dd {
+  margin: 10px 0 0;
+  max-width: 13em;
+  font-size: clamp(12px, 0.73vw, 14px);
+  color: var(--text);
+}
+.about__foot {
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 3.4vw, 64px);
+  margin-top: clamp(24px, 2.2vw, 40px);
+}
+.about__foot p {
+  font-size: 12px;
+  color: var(--muted);
+}
+.about__foot b {
+  display: block;
+  font-size: clamp(14px, 0.94vw, 18px);
+  font-weight: 500;
+  color: var(--navy);
+}
+.about__card {
+  position: relative;
+  aspect-ratio: 654 / 642;
+  overflow: hidden;
+}
+/* Mirror flash: a bright diagonal band that sweeps across the card once
+   (About.jsx). It waits off to the left until then. */
+.about__shine {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0.35) 42%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(255, 255, 255, 0.35) 58%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  mix-blend-mode: screen;
+  opacity: 0; /* About.jsx shows it for the sweep only (no CSS transform: GSAP would add to it) */
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .about__shine {
+    display: none;
+  }
+}
+.about__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.about__stage {
+  position: absolute;
+  /* The white panel fills most of the frame now that the card has no caption. */
+  inset: 9%;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  box-shadow: 0 30px 60px -40px rgba(0, 26, 86, 0.35);
+  overflow: hidden;
+}
+.glass-mark {
+  position: absolute;
+  inset: 0;
+}
+.glass-mark canvas {
+  width: 100%;
+  height: 100%;
+}
+.glass-mark__fallback {
+  position: absolute;
+  inset: 22%;
+  width: 56%;
+  height: auto;
+}
+
+/* ---------- services ---------- */
+.services {
+  padding: clamp(48px, 4vw, 80px) 0;
+  overflow: hidden;
+  background: var(--page);
+}
+.services__head {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  text-align: center;
+}
+/* Wrapping row: seven cards split 4 + 3, and the shorter row stays centred. */
+.services__row {
+  --cols: 4;
+  --gap: clamp(12px, 1vw, 20px);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--gap);
+  max-width: 1530px;
+  margin: clamp(32px, 2.6vw, 50px) auto 0;
+  will-change: transform;
+}
+.services__row + .services__row {
+  margin-top: var(--gap);
+}
+.scard {
+  flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
+  display: flex;
+  flex-direction: column;
+  min-height: clamp(150px, 9vw, 176px);
+  padding: clamp(18px, 1.25vw, 24px);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(0, 26, 86, 0.04);
+  transition: box-shadow 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.scard:hover {
+  box-shadow: 0 0 0 1px rgba(55, 127, 240, 0.25), 0 18px 40px -24px rgba(0, 26, 86, 0.35);
+  transform: translateY(-3px);
+}
+.scard h3 {
+  font-size: clamp(15px, 0.94vw, 18px);
+  font-weight: 500;
+  color: var(--navy);
+}
+.scard p {
+  margin-top: 10px;
+  max-width: 17em;
+  font-size: clamp(12px, 0.7vw, 13px);
+  line-height: 1.55;
+  color: var(--muted);
+}
+.scard a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 16px;
+  font-size: clamp(12px, 0.7vw, 13px);
+  color: var(--blue-btn);
+}
+
+/* ---------- why ---------- */
+.why {
+  padding: clamp(48px, 4vw, 80px) 0 0;
+  overflow: hidden;
+  background: var(--page);
+}
+.why__grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: clamp(24px, 4vw, 80px);
+  padding-top: clamp(32px, 3vw, 56px);
+  max-width: calc(1530px + 2 * var(--gutter));
+}
+.why__list {
+  display: grid;
+  gap: clamp(24px, 2.4vw, 44px);
+}
+.why__point {
+  display: flex;
+  gap: clamp(16px, 1.6vw, 30px);
+}
+.why__num {
+  flex: none;
+  width: 1.4em;
+  font-size: clamp(36px, 2.9vw, 56px);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--navy);
+}
+.why__point h3 {
+  font-size: clamp(15px, 0.94vw, 18px);
+  font-weight: 500;
+  color: var(--ink);
+}
+.why__point p {
+  margin-top: 8px;
+  max-width: 34em;
+  font-size: clamp(12px, 0.73vw, 14px);
+  line-height: 1.6;
+  color: var(--muted);
+}
+/* Centre divider: four-point star with a soft twinkle, line running the full height. */
+.why__divider {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+  width: 24px;
+  margin-top: calc(-1 * clamp(32px, 3vw, 56px));
+  color: var(--navy);
+}
+.why__star {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  width: clamp(20px, 1.3vw, 26px);
+  height: auto;
+  filter: drop-shadow(0 0 6px rgba(83, 145, 238, 0.55));
+  animation: why-twinkle 3.2s ease-in-out infinite;
+}
+.why__line {
+  flex: 1;
+  width: 1px;
+  margin-top: 12px;
+  background: linear-gradient(180deg, rgba(0, 26, 86, 0.35), #d6dbe6 18%, #d6dbe6 85%, rgba(214, 219, 230, 0));
+  transform-origin: 50% 0;
+}
+/* Opacity and scale only: an animated filter would repaint every frame. */
+@keyframes why-twinkle {
+  0%,
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
+  50% {
+    opacity: 0.7;
+    scale: 0.88;
+  }
+}
+.why__rating {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.why__rating span {
+  color: #f5b301;
+  margin-right: 4px;
+}
+.why__faces {
+  display: flex;
+}
+.why__faces li + li {
+  margin-left: -8px;
+}
+.why__faces img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid var(--page);
+  object-fit: cover;
+}
+.why__card {
+  margin-top: clamp(24px, 2.2vw, 40px);
+  padding: clamp(20px, 1.7vw, 32px);
+  border-radius: 6px;
+  background: #fff;
+}
+.why__card h3 {
+  font-size: clamp(18px, 1.3vw, 25px);
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--navy);
+}
+.why__card p {
+  margin-top: 14px;
+  font-size: clamp(12px, 0.7vw, 13px);
+  line-height: 1.6;
+  color: var(--text);
+}
+.marquee-text {
+  margin-top: clamp(32px, 3vw, 56px);
+  padding: clamp(12px, 1.2vw, 24px) 0;
+  border-block: 1px solid var(--line);
+  overflow: hidden;
+}
+.marquee-text__track {
+  white-space: nowrap;
+  font-size: clamp(56px, 7.3vw, 140px);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+  will-change: transform;
+}
+
+/* ---------- how ---------- */
+.how {
+  padding: clamp(48px, 4.5vw, 88px) 0;
+  background: var(--page);
+}
+.how__head {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  text-align: center;
+}
+.how__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 1.5vw, 28px);
+  max-width: 1530px;
+  margin: clamp(28px, 2.4vw, 44px) auto 0;
+}
+.how__item {
+  display: flex;
+  flex-direction: column;
+}
+.how__num-clip {
+  display: block;
+  height: clamp(60px, 5vw, 96px);
+  margin-left: clamp(16px, 4vw, 76px);
+  overflow: hidden;
+}
+.how__num {
+  width: auto;
+  height: clamp(96px, 8vw, 150px);
+  opacity: 0.85;
+  -webkit-mask-image: linear-gradient(180deg, #000 30%, transparent 70%);
+  mask-image: linear-gradient(180deg, #000 30%, transparent 70%);
+}
+.how__card {
+  position: relative;
+  flex: 1;
+  padding: clamp(18px, 1.4vw, 26px);
+  border-radius: 6px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85), #fff);
+  box-shadow: 0 -18px 40px -24px rgba(83, 145, 238, 0.35);
+}
+.how__card h3 {
+  font-size: clamp(15px, 0.94vw, 18px);
+  font-weight: 500;
+  color: var(--navy);
+}
+.how__card p {
+  margin-top: 10px;
+  font-size: clamp(12px, 0.7vw, 13px);
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* ---------- work ---------- */
+.work {
+  padding: clamp(48px, 4vw, 80px) 0;
+  background: var(--page);
+}
+.work__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 32px;
+  max-width: 1530px;
+  margin: 0 auto;
+}
+.work__head .lede {
+  max-width: 360px;
+  text-align: right;
+  color: var(--text);
+}
+/* All slides share the same two grid rows (media, caption) through subgrid,
+   so switching never changes the height, and the arrows can sit in the
+   caption row, centred on whichever caption is showing. */
+.work__stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  row-gap: clamp(16px, 1.4vw, 28px);
+  max-width: 1530px;
+  margin: clamp(24px, 2vw, 40px) auto 0;
+}
+.work__slides {
+  display: contents;
+}
+.work__slide {
+  grid-row: 1 / 3;
+  grid-column: 1;
+  display: grid;
+  grid-template-rows: subgrid;
+}
+/* Only the first slide shows until Work.jsx takes over (its setup is deferred). */
+.work__slide + .work__slide {
+  visibility: hidden;
+  opacity: 0;
+}
+.work__media {
+  display: grid;
+  grid-template-columns: 1004fr 499fr;
+  gap: clamp(10px, 1vw, 20px);
+}
+.work__frame {
+  overflow: hidden;
+  border-radius: 6px;
+  clip-path: inset(0% 0% 0% 0%);
+  will-change: clip-path;
+}
+.work__frame--big {
+  aspect-ratio: 1004 / 641;
+}
+.work__frame--small {
+  aspect-ratio: 499 / 641;
+}
+.work__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: transform;
+}
+.work__meta {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  align-items: center;
+  align-self: center;
+  gap: 24px;
+  padding-right: clamp(140px, 10vw, 200px);
+}
+.work__tag {
+  font-size: 11px;
+  color: var(--blue-btn);
+}
+.work__meta h3 {
+  font-size: clamp(22px, 1.6vw, 30px);
+  font-weight: 500;
+  color: var(--navy);
+}
+.work__summary {
+  max-width: 34em;
+  font-size: clamp(12px, 0.73vw, 14px);
+  line-height: 1.55;
+  color: var(--text);
+}
+.work__actions {
+  grid-row: 2;
+  grid-column: 1;
+  justify-self: end;
+  align-self: center;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.work__arrow {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--blue-btn);
+  color: var(--blue-btn);
+  transition: background-color 0.25s, color 0.25s, transform 0.25s var(--ease);
+}
+.work__arrow:hover {
+  background: var(--blue-btn);
+  color: #fff;
+}
+.work__arrow:active {
+  transform: scale(0.92);
+}
+
+/* ---------- logos + cta ---------- */
+.logos {
+  padding: clamp(32px, 3vw, 56px) 0 clamp(24px, 2vw, 40px);
+  overflow: hidden;
+  background: var(--page);
+}
+.logos__title {
+  text-align: center;
+  margin-bottom: clamp(12px, 1.2vw, 24px);
+}
+.logos__row {
+  overflow: hidden;
+}
+.logos__track {
+  display: flex;
+  width: max-content;
+  animation: logos 40s linear infinite;
+}
+.logos__row--2 .logos__track {
+  animation-direction: reverse;
+}
+.logos__track img {
+  width: clamp(900px, 70vw, 1338px);
+  height: auto;
+}
+.logos__row:hover .logos__track {
+  animation-play-state: paused;
+}
+@keyframes logos {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.cta {
+  background: var(--blue-cta);
+  color: #fff;
+}
+.cta__inner {
+  padding-top: clamp(56px, 5vw, 96px);
+  padding-bottom: clamp(48px, 4vw, 76px);
+  text-align: center;
+}
+.cta__eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+.cta__title {
+  margin-top: 14px;
+  font-size: clamp(32px, 2.9vw, 56px);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+.cta__text {
+  max-width: 34em;
+  margin: 16px auto 0;
+  font-size: clamp(13px, 0.78vw, 15px);
+  line-height: 1.6;
+  opacity: 0.85;
+}
+.cta__btn {
+  margin-top: clamp(18px, 1.3vw, 24px);
+  background: #fff;
+  color: var(--blue-cta);
+}
+.cta__btn:hover {
+  background: var(--navy);
+  color: #fff;
+}
+.cta__bar {
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  background: #2f74e6;
+}
+.cta__bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-block: 20px;
+}
+.cta__note {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 560px;
+  font-size: 11px;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+.cta__note span {
+  font-size: 22px;
+  font-weight: 300;
+}
+.cta__audit {
+  flex: none;
+  display: grid;
+  gap: 8px;
+}
+.cta__privacy {
+  max-width: 44em;
+  font-size: 11px;
+  line-height: 1.5;
+  opacity: 0.8;
+}
+.cta__privacy a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.cta__form {
+  display: flex;
+  padding: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 999px;
+}
+.cta__form input {
+  width: clamp(175px, 12vw, 220px);
+  min-width: 0;
+  padding: 8px 16px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 12px;
+}
+.cta__form input::placeholder {
+  color: rgba(255, 255, 255, 0.75);
+}
+.cta__form input + input {
+  border-left: 1px solid rgba(255, 255, 255, 0.45);
+}
+.cta__form input[aria-invalid] {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+}
+.cta__form button:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+.cta__trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.cta__errors:empty {
+  display: none;
+}
+.cta__error {
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: #fff;
+  color: #b42318;
+  font-size: 12px;
+  font-weight: 500;
+}
+.cta__error + .cta__error {
+  margin-top: 6px;
+}
+.cta__done {
+  max-width: 30em;
+  padding: 12px 18px;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--navy);
+  font-size: 14px;
+}
+.cta__form input:focus {
+  outline: none;
+}
+.cta__form:focus-within {
+  box-shadow: 0 0 0 2px #fff;
+}
+.cta__form button {
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--blue-cta);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ---------- footer ---------- */
+.footer {
+  position: relative;
+  overflow: hidden;
+  padding-top: clamp(56px, 5vw, 96px);
+  background: linear-gradient(180deg, var(--navy-900) 0%, #031548 35%, #01081f 80%, #000002 100%);
+  color: #fff;
+}
+.footer__grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1.2fr 0.9fr 1fr;
+  gap: clamp(28px, 3vw, 56px);
+  max-width: calc(1530px + 2 * var(--gutter));
+}
+.footer__brand .logo {
+  width: clamp(140px, 10vw, 192px);
+  height: auto;
+}
+.footer__brand p {
+  margin-top: 18px;
+  font-size: clamp(14px, 0.94vw, 18px);
+  line-height: 1.4;
+}
+.footer h3 {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+.footer__col ul:not(.footer__social) {
+  display: grid;
+  gap: 8px;
+}
+.footer__col a,
+.footer__contact span {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.68);
+  transition: color 0.2s;
+}
+.footer__col a:hover {
+  color: #fff;
+}
+.footer__social {
+  display: flex;
+  gap: 8px;
+  margin-top: 22px;
+}
+.footer__social a {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid #4d86f2;
+  color: #4d86f2;
+}
+.footer__social a:hover {
+  background: #4d86f2;
+  color: #fff;
+}
+.footer__contact {
+  display: grid;
+  gap: 8px;
+  margin-top: 26px;
+  font-style: normal;
+}
+.footer__contact h3 {
+  margin-bottom: 4px;
+}
+.footer__contact a {
+  color: #4d86f2;
+}
+
+.pwm {
+  position: relative;
+  max-width: 1530px;
+  margin: clamp(24px, 3vw, 56px) auto 0;
+  cursor: none;
+  touch-action: pan-y;
+}
+.pwm__canvas {
+  width: 100%;
+}
+.pwm__ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 54px;
+  height: 54px;
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+.pwm__ring span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  border-radius: 50%;
+  background: #fff;
+}
+.footer__legal {
+  display: grid;
+  gap: 8px;
+  max-width: calc(1100px + 2 * var(--gutter));
+  padding-block: clamp(20px, 2vw, 36px);
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* ==========================================================================
+   Tablet / mobile
+   ========================================================================== */
+@media (max-width: 1023px) {
+  .work__head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .about__inner {
+    grid-template-columns: 1fr;
+  }
+  .about__card {
+    width: 100%;
+    max-width: 520px;
+    margin-inline: auto;
+  }
+  .services__row {
+    --cols: 2;
+  }
+  .why__grid {
+    grid-template-columns: 1fr;
+  }
+  .why__divider {
+    display: none;
+  }
+  /* Heading first once the columns stack. */
+  .why__side {
+    order: -1;
+  }
+  .why__grid {
+    padding-top: 0;
+  }
+  .how__grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .work__head .lede {
+    text-align: left;
+  }
+  .work__meta {
+    grid-template-columns: 1fr;
+    align-items: start;
+    padding-right: 0;
+  }
+  .work__stage {
+    grid-template-rows: auto auto auto;
+  }
+  .work__actions {
+    grid-row: 3;
+    justify-self: start;
+  }
+  .cta__bar-inner {
+    flex-direction: column;
+    align-items: stretch;
+    padding-block: 24px;
+  }
+  .cta__note {
+    max-width: none;
+    font-size: 13px;
+  }
+  .cta__privacy {
+    max-width: none;
+    font-size: 12px;
+  }
+  .cta__form input {
+    flex: 1;
+    width: auto;
+    padding-block: 10px;
+    font-size: 14px;
+  }
+  .cta__form button {
+    font-size: 14px;
+  }
+  .footer__grid {
+    grid-template-columns: repeat(3, auto);
+    justify-content: space-between;
+  }
+  .footer__col a,
+  .footer__contact span {
+    font-size: 14px;
+  }
+  .footer__legal {
+    font-size: 11px;
+  }
+
+  /* The desktop type is sized in vw; give body copy a readable floor. */
+  .lede,
+  .partners__tagline,
+  .pcard p,
+  .about__text,
+  .scard p,
+  .why__point p,
+  .why__card p,
+  .how__card p,
+  .work__summary,
+  .calc__lede,
+  .ccard p {
+    font-size: 15px;
+  }
+  .eyebrow {
+    font-size: 12px;
+  }
+  .pcard h3,
+  .scard h3,
+  .why__point h3,
+  .how__card h3 {
+    font-size: 18px;
+  }
+  .scard p {
+    max-width: none;
+  }
+  .scard a,
+  .about__stats dd,
+  .about__foot p {
+    font-size: 14px;
+  }
+  .footer__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .partners__row {
+    grid-template-columns: 1fr;
+  }
+  .partners__head br,
+  .services__head br,
+  .why__side br,
+  .cta__title br {
+    display: none;
+  }
+  .services__row {
+    --cols: 1;
+  }
+  .work__media {
+    grid-template-columns: 1fr;
+  }
+  .work__frame--small {
+    display: none;
+  }
+  .about__foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .cta__form {
+    flex-direction: column;
+    border-radius: 18px;
+    gap: 6px;
+  }
+  .cta__form input {
+    width: 100%;
+    flex: none;
+  }
+  .cta__form input + input {
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.45);
+  }
+  .cta__form button {
+    padding-block: 12px;
+  }
+  .footer__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 20px;
+  }
+  .footer__col:first-of-type {
+    grid-column: 1 / -1;
+  }
+}
+
+
+/* The hero pin ends with the laptop screen filling the viewport; the section
+   sits exactly under it and is revealed at that moment (Hero.jsx). */
+@media (prefers-reduced-motion: no-preference) {
+  .partners {
+    margin-top: -100svh;
+    visibility: hidden;
+  }
+}
+
+/* ---------- calculators (finaze-7) ---------- */
+.calc {
+  padding: clamp(48px, 4vw, 80px) 0 clamp(32px, 3vw, 56px);
+  background: var(--page);
+}
+.calc__head {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+.calc__head .eyebrow {
+  font-size: clamp(12px, 0.83vw, 16px);
+  font-weight: 400;
+  color: #a9adb6;
+}
+.calc__head .h2 {
+  font-size: clamp(28px, 2.6vw, 50px);
+  margin-top: 14px;
+}
+.calc__lede {
+  max-width: 50em;
+  margin-top: 18px;
+  font-size: clamp(13px, 0.83vw, 16px);
+  line-height: 1.6;
+  color: var(--ink);
+}
+.calc__filters {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: max-content;
+  max-width: 100%;
+  margin: clamp(24px, 2.2vw, 40px) auto 0;
+  padding: 12px 16px;
+  border: 1px solid #e3e5ea;
+  border-radius: 999px;
+  background: #fff;
+}
+.calc__filter {
+  padding: 0.75em 1.5em;
+  border: 2px solid var(--navy);
+  border-radius: 999px;
+  font-size: clamp(13px, 0.83vw, 16px);
+  font-weight: 500;
+  color: var(--blue-btn);
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+}
+.calc__filter:hover {
+  background: #eef3fd;
+}
+.calc__filter.is-active {
+  background: var(--navy);
+  color: #fff;
+}
+/* Wrapping flex row so filtered results stay centred. */
+.calc__grid {
+  position: relative;
+  --cols: 4;
+  --gap: clamp(14px, 1.2vw, 24px);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--gap);
+  max-width: 1530px;
+  margin: clamp(28px, 2.6vw, 48px) auto 0;
+}
+.ccard {
+  flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
+  display: flex;
+  flex-direction: column;
+  padding: clamp(18px, 1.35vw, 26px);
+  border: 1px solid #e4e6eb;
+  border-radius: 10px;
+  background: #fff;
+  /* Hover lifts with "translate", leaving "transform" to the GSAP filter animation. */
+  transition: box-shadow 0.35s var(--ease), translate 0.35s var(--ease);
+}
+.ccard[hidden] {
+  display: none;
+}
+.ccard:hover {
+  box-shadow: 0 20px 40px -26px rgba(0, 26, 86, 0.35);
+  translate: 0 -4px;
+}
+.ccard__icon {
+  display: grid;
+  place-items: center;
+  width: clamp(64px, 4.2vw, 80px);
+  aspect-ratio: 1;
+  border: 1px solid #ececef;
+  border-radius: 6px;
+  background: linear-gradient(145deg, #fff 0%, #f6f7f9 100%);
+  box-shadow: 0 6px 16px -10px rgba(0, 26, 86, 0.25);
+}
+.ccard__icon img {
+  width: 52%;
+  height: auto;
+}
+.ccard h3 {
+  margin-top: clamp(28px, 2.9vw, 56px);
+  font-size: clamp(18px, 1.15vw, 22px);
+  font-weight: 500;
+  color: var(--navy);
+}
+.ccard p {
+  flex: 1;
+  margin-top: 12px;
+  padding-bottom: clamp(18px, 1.4vw, 26px);
+  border-bottom: 1px solid #e4e6eb;
+  font-size: clamp(13px, 0.78vw, 15px);
+  line-height: 1.55;
+  color: var(--text);
+}
+/* A step smaller than .btn. */
+.ccard__btn {
+  align-self: flex-start;
+  margin-top: clamp(16px, 1.1vw, 20px);
+  padding: 0.75em 1.5em;
+  border-radius: 999px;
+  background: var(--navy);
+  color: #fff;
+  font-size: clamp(13px, 0.78vw, 15px);
+  font-weight: 500;
+  line-height: 1.2;
+  transition: background-color 0.25s;
+}
+.ccard__btn:hover {
+  background: var(--blue-btn);
+}
+.calc__more {
+  margin-top: clamp(28px, 2.6vw, 48px);
+  text-align: center;
+}
+.calc__more-btn {
+  border-color: var(--navy);
+  border-width: 2px;
+  font-size: clamp(13px, 0.83vw, 16px);
+}
+
+@media (max-width: 1023px) {
+  .calc__grid {
+    --cols: 2;
+  }
+  .calc__filters {
+    border-radius: 24px;
+  }
+}
+@media (max-width: 560px) {
+  .calc__grid {
+    --cols: 1;
+  }
+}
+
+/* Work slide change: square tile mosaic (built by Work.jsx). */
+.work__frame {
+  position: relative;
+}
+.work__tiles {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  overflow: hidden;
+  pointer-events: none;
+}
+.work__tiles span {
+  display: block;
+  background-repeat: no-repeat;
+  will-change: transform, opacity;
+}
+
+/* Tighter vertical rhythm on tablets and phones. */
+@media (max-width: 1023px) {
+  .about,
+  .services,
+  .how,
+  .work {
+    padding-block: 56px;
+  }
+  .why {
+    padding-top: 56px;
+  }
+  .calc {
+    padding: 56px 0 32px;
+  }
+  .partners {
+    padding-bottom: 40px;
+  }
+  .partners__intro {
+    padding-top: 64px;
+  }
+  .marquee-text {
+    margin-top: 40px;
+  }
+  .logos {
+    padding: 40px 0 24px;
+  }
+  .cta__inner {
+    padding-block: 48px 40px;
+  }
+  .footer {
+    padding-top: 48px;
+  }
+}
+@media (max-width: 640px) {
+  .about,
+  .services,
+  .how,
+  .work {
+    padding-block: 44px;
+  }
+  .why {
+    padding-top: 44px;
+  }
+  .calc {
+    padding: 44px 0 24px;
+  }
+  .partners__intro {
+    padding-top: 52px;
+  }
+  .partners__row {
+    gap: 28px;
+  }
+  .how__grid {
+    gap: 16px;
+  }
+}
+
+/* Calculator filters: a 2 × 2 grid on phones instead of wrapping unevenly. */
+@media (max-width: 560px) {
+  .calc__filters {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+    padding: 8px;
+    border-radius: 20px;
+  }
+  .calc__filter {
+    padding: 0.7em 0.5em;
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}

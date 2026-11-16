@@ -1,0 +1,271 @@
+/* Hero
+   ----
+   Everything is laid out on a 16:9 stage measured from the 1920×1080
+   reference. --u is 1/100 of the stage width and never exceeds what fits the
+   viewport height, so short/wide windows scale the scene down instead of
+   pushing the desk into the copy.
+     tabletop     y 819   (desk.webp tabletop row = 21.53% of its height)
+     desk         x 454, y 676, w 1013
+     laptop       x 743.5, y 558, w 433 (base lands on the tabletop)
+     copy         eyebrow y 196 · title 1.15 lh · buttons centre y 935        */
+.hero {
+  --u: min(1vw, 1.7778svh);
+  position: relative;
+  height: 100svh;
+  min-height: 520px;
+  overflow: hidden;
+  background: #cfe0e6;
+  isolation: isolate;
+}
+
+.hero__sky {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 34.4%;
+  transform-origin: 50% 60%;
+  will-change: transform;
+}
+.hero__dim {
+  position: absolute;
+  inset: 0;
+  background: #070a14;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Cloud bank behind the desk: PDF position x 76, y 460, 1768 wide (design px). */
+.hero__cloud {
+  position: absolute;
+  left: calc(50% - var(--u) * 50 + var(--u) * 3.96);
+  bottom: calc(var(--u) * -8.23);
+  width: calc(var(--u) * 92.08);
+  transform-origin: 50% 60%;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+.hero__cloud img {
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+/* Idle drift behind the desk (the wrapper takes the scroll motion). CSS, not
+   GSAP, so it runs on the compositor and keeps the main thread free. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero__cloud img {
+    animation: hero-cloud 16s ease-in-out infinite alternate;
+  }
+}
+@keyframes hero-cloud {
+  to {
+    transform: translate(2.5%, -1.5%);
+  }
+}
+
+/* PDF top fade: white at ~89% for the first 100px, fading linearly to clear by ~580px. */
+.hero__fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: max(46%, calc(var(--u) * 32.92));
+  background: linear-gradient(180deg, rgba(253, 253, 254, 0.89) 0%, rgba(253, 253, 254, 0.87) 15.8%, rgba(253, 253, 254, 0) 92%);
+  pointer-events: none;
+}
+
+.hero__stage {
+  position: absolute;
+  left: calc(50% - var(--u) * 50);
+  bottom: 0;
+  width: calc(var(--u) * 100);
+  height: calc(var(--u) * 56.25);
+  transform-origin: 0 0;
+  will-change: transform;
+}
+.hero__desk {
+  position: absolute;
+  left: 23.65%;
+  top: 62.6%;
+  width: 52.76%;
+  height: auto;
+  max-width: none;
+}
+.hero__laptop {
+  position: absolute;
+  left: 38.72%;
+  top: 51.67%;
+  width: 22.55%;
+  height: auto;
+  max-width: none;
+}
+
+/* Live preview of the Partners section, positioned over the laptop screen by JS. */
+.hero__screen {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  transform-origin: 0 0;
+  background: var(--page);
+  pointer-events: none;
+  will-change: transform, clip-path;
+}
+
+/* Two copies: a desktop-width preview scaled to fit (readable on small
+   screens) and a real-width copy that takes over as the screen opens. */
+/* The page is prerendered, so it paints before the script runs. Until then:
+   the laptop screen stays hidden (Hero.jsx places it), and the intro elements
+   wait in their starting states. html.js is set in index.html. */
+.js .hero__screen {
+  visibility: hidden;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .js .hero__ch,
+  .js .hero__ctas .btn,
+  .js [data-hero-nav] {
+    opacity: 0;
+  }
+  .js .hero__eyebrow,
+  .js .hero__sub {
+    opacity: 0.01;
+  }
+}
+
+.hero__screen-wide,
+.hero__screen-real {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+.hero__screen-wide {
+  width: var(--wide-w, 100%);
+  transform: scale(var(--wide-s, 1)) translateY(var(--wide-y, 0));
+  transform-origin: 0 0;
+}
+.hero__screen-real {
+  opacity: 0;
+}
+
+.hero__copy {
+  position: relative;
+  z-index: 4;
+  padding-top: max(84px, calc(var(--u) * 10.2));
+  padding-inline: var(--gutter);
+  text-align: center;
+}
+.hero__eyebrow {
+  font-size: max(12px, calc(var(--u) * 0.94));
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--navy);
+}
+.hero__title {
+  margin-top: max(10px, calc(var(--u) * 1.4));
+  font-size: max(28px, calc(var(--u) * 3.75));
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.hero__line {
+  display: block;
+}
+.hero__word {
+  display: inline-block;
+  white-space: nowrap;
+}
+.hero__ch--navy {
+  color: var(--navy);
+}
+.hero__ch--blue {
+  color: var(--blue);
+}
+.hero__sub {
+  margin-top: max(10px, calc(var(--u) * 1.1));
+  font-size: max(14px, calc(var(--u) * 1.1));
+  line-height: 1.4;
+  color: var(--navy);
+}
+
+.hero__ctas {
+  position: absolute;
+  z-index: 4;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--u) * 5.2);
+  display: flex;
+  justify-content: center;
+  gap: max(10px, calc(var(--u) * 0.75));
+}
+.hero__ctas .btn {
+  font-size: max(13px, calc(var(--u) * 0.94));
+  padding: 0.9em 1.75em;
+}
+
+/* Portrait tablets and phones: a wider stage so the desk still reads, and the
+   buttons sit under the copy instead of on the desk. */
+/* Hero.jsx sets --u here from the free height; text sizes must not depend on it. */
+@media (max-width: 1023px) and (orientation: portrait) {
+  .hero {
+    /* Close to what Hero.jsx computes (laptop just under the buttons), so the
+       scene barely moves when the script takes over. */
+    --u: clamp(1.5vw, calc((100svh - 470px) / 27.19), 3.2vw);
+  }
+  .hero__eyebrow {
+    font-size: 12px;
+  }
+  .hero__title {
+    margin-top: 12px;
+    font-size: clamp(28px, 5.6vw, 46px);
+  }
+  .hero__copy {
+    padding-top: max(104px, 12svh);
+  }
+  .hero__sub {
+    margin-top: 12px;
+    max-width: 36em;
+    margin-inline: auto;
+    font-size: clamp(14px, 2.1vw, 18px);
+  }
+  .hero__sub br {
+    display: none;
+  }
+  .hero__ctas {
+    position: relative;
+    bottom: auto;
+    flex-wrap: wrap;
+    margin-top: 28px;
+    padding-inline: var(--gutter);
+  }
+  .hero__ctas {
+    gap: 12px;
+  }
+  .hero__ctas .btn {
+    font-size: 15px;
+  }
+}
+@media (max-width: 767px) and (orientation: portrait) {
+  .hero {
+    --u: clamp(1.5vw, calc((100svh - 450px) / 27.19), 3.2vw);
+  }
+}
+@media (max-width: 767px) and (orientation: landscape) {
+  .hero {
+    --u: 1.9vw;
+  }
+}
+@media (max-width: 767px) {
+  .hero__copy {
+    padding-top: 92px;
+  }
+  .hero__ctas {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 22px;
+  }
+}
