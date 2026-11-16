@@ -3,8 +3,9 @@ import react from "@vitejs/plugin-react";
 
 // Deployed at www.finaze.com.au/react-home/. Change base if it moves
 // ("./" makes every URL relative, for any folder).
+// The GitHub Pages workflow sets VITE_BASE=/finaze/ for its preview build.
 export default defineConfig(({ isSsrBuild }) => ({
-  base: "/react-home/",
+  base: process.env.VITE_BASE || "/react-home/",
   plugins: [react()],
   server: { port: 5180 },
   // The SSR build only feeds prerender.mjs, so it needs no public/ copy.
