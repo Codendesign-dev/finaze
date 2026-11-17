@@ -5,7 +5,7 @@ import { CONTACT } from "../lib/links";
 import "./Hero.css";
 
 const LINE_1 = [{ text: "Marketing made ", tone: "navy" }, { text: "for", tone: "blue" }];
-const LINE_2 = [{ text: "financial professionals.", tone: "blue" }];
+const LINE_2 = [{ text: "financial professionals", tone: "blue" }];
 
 // Screen area inside laptop.webp (1402 × 894), measured from the image.
 const SCREEN = { x: 115 / 1402, y: 16 / 894, w: 1170 / 1402, h: 748 / 894 };
@@ -250,7 +250,7 @@ export default function Hero() {
 
       <div className="hero__copy">
         <p className="hero__eyebrow">Financial services marketing · Melbourne, Australia</p>
-        <h1 id="hero-title" className="hero__title" aria-label="Marketing made for financial professionals.">
+        <h1 id="hero-title" className="hero__title" aria-label="Marketing made for financial professionals">
           <span aria-hidden="true" className="hero__line">
             <Typed parts={LINE_1} />
           </span>
