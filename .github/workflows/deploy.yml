@@ -1,8 +1,10 @@
 name: Deploy preview to GitHub Pages
 
+# Review step: every push to dev rebuilds https://codendesign-dev.github.io/finaze/.
+# When the preview looks right, merge dev into main to go live (deploy-cpanel.yml).
 on:
   push:
-    branches: [main]
+    branches: [dev]
   workflow_dispatch:
 
 permissions:

@@ -1,0 +1,49 @@
+name: Deploy to cPanel (www.finaze.com.au/react-home/)
+
+# Go-live step: work is pushed to dev and reviewed on the GitHub Pages preview
+# (deploy.yml). Merging dev into main publishes it here automatically; it can
+# also be re-run by hand from Actions > "Deploy to cPanel" > Run workflow.
+#
+# It builds the site and uploads dist/ to the react-home folder on the cPanel
+# server over FTPS. Only files this workflow uploaded are ever
+# replaced or removed (tracked in .ftp-deploy-sync-state.json on the server),
+# so the WordPress install around it is never touched.
+#
+# Repository secrets (Settings > Secrets and variables > Actions):
+#   FTP_SERVER     e.g. ftp.finaze.com.au
+#   FTP_USERNAME   a cPanel FTP account
+#   FTP_PASSWORD   that account's password
+#   FTP_DIR        folder to deploy into, relative to the FTP account's root,
+#                  ending in a slash, e.g. public_html/react-home/
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: cpanel
+  cancel-in-progress: false # never cut an upload off halfway
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build # base defaults to /react-home/ (vite.config.js)
+      - uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ./dist/
+          server-dir: ${{ secrets.FTP_DIR }}
